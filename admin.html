@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | ECO BLOOM</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-['Inter'] antialiased bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-200">
+    
+    <!-- Admin Nav -->
+    <nav class="sticky top-0 z-40 bg-white dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-green-800 flex items-center justify-center">
+                        <i class="fas fa-leaf text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-['Playfair_Display'] font-bold text-emerald-900 dark:text-emerald-400">ECO BLOOM</h1>
+                        <p class="text-xs text-stone-500">Admin Dashboard</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <span class="hidden md:inline text-sm text-stone-600 dark:text-stone-400">
+                        <i class="fas fa-user-circle mr-1"></i>
+                        <span id="adminUserDisplay">Admin</span>
+                    </span>
+                    <a href="index.html" target="_blank" class="px-4 py-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors">
+                        <i class="fas fa-external-link-alt mr-1"></i>View Store
+                    </a>
+                    <button onclick="logout()" class="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Row -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-sm border border-stone-200 dark:border-stone-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-stone-600 dark:text-stone-400">Total Products</p>
+                        <p class="text-2xl font-bold text-stone-900 dark:text-white" id="totalProducts">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                        <i class="fas fa-box text-emerald-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-sm border border-stone-200 dark:border-stone-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-stone-600 dark:text-stone-400">Categories</p>
+                        <p class="text-2xl font-bold text-stone-900 dark:text-white" id="totalCategories">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                        <i class="fas fa-tags text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-sm border border-stone-200 dark:border-stone-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-stone-600 dark:text-stone-400">Total Reviews</p>
+                        <p class="text-2xl font-bold text-stone-900 dark:text-white" id="totalReviews">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center">
+                        <i class="fas fa-star text-yellow-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-sm border border-stone-200 dark:border-stone-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-stone-600 dark:text-stone-400">Storage Used</p>
+                        <p class="text-2xl font-bold text-stone-900 dark:text-white" id="storageUsed">0 MB</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center">
+                        <i class="fas fa-database text-purple-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+            <h2 class="text-2xl font-bold text-stone-900 dark:text-white">Product Management</h2>
+            <div class="flex gap-3">
+                <button onclick="exportData()" class="px-4 py-2 bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg hover:bg-stone-300 dark:hover:bg-stone-600 transition-colors text-sm font-medium">
+                    <i class="fas fa-download mr-2"></i>Backup Data
+                </button>
+                <label class="px-4 py-2 bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg hover:bg-stone-300 dark:hover:bg-stone-600 transition-colors text-sm font-medium cursor-pointer">
+                    <i class="fas fa-upload mr-2"></i>Restore Data
+                    <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(this)">
+                </label>
+                <button onclick="openProductModal()" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 font-medium flex items-center">
+                    <i class="fas fa-plus mr-2"></i>Add New Product
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white dark:bg-stone-800 rounded-xl p-4 mb-6 shadow-sm border border-stone-200 dark:border-stone-700 flex flex-wrap gap-4">
+            <input type="text" id="adminSearch" placeholder="Search products..." 
+                class="flex-1 min-w-[200px] px-4 py-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                onkeyup="loadAdminProducts()">
+            <select id="adminCategoryFilter" onchange="loadAdminProducts()" 
+                class="px-4 py-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <option value="all">All Categories</option>
+                <option value="spices">Spices</option>
+                <option value="coconut">Coconut Products</option>
+                <option value="tea">Tea & Herbs</option>
+                <option value="oil">Essential Oils</option>
+                <option value="handicraft">Handicrafts</option>
+            </select>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="adminProductsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Products loaded dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-20">
+            <div class="w-24 h-24 mx-auto bg-stone-100 dark:bg-stone-800 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-box-open text-4xl text-stone-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-stone-900 dark:text-white mb-2">No products yet</h3>
+            <p class="text-stone-600 dark:text-stone-400 mb-6">Add your first product to get started</p>
+            <button onclick="openProductModal()" class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors">
+                Add Product
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeProductModal()"></div>
+            
+            <div class="relative bg-white dark:bg-stone-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                <div class="sticky top-0 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-700 p-6 flex justify-between items-center z-10">
+                    <h3 class="text-2xl font-bold text-stone-900 dark:text-white" id="modalTitle">Add New Product</h3>
+                    <button onclick="closeProductModal()" class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 transition-colors">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+
+                <form id="productForm" class="p-6 space-y-6">
+                    <input type="hidden" id="productId">
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Left Column -->
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">Product Name *</label>
+                                <input type="text" id="productName" required 
+                                    class="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-white"
+                                    placeholder="e.g., Premium Ceylon Cinnamon">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">Price (USD) *</label>
+                                    <input type="number" id="productPrice" step="0.01" required 
+                                        class="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-white"
+                                        placeholder="0.00">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">Category *</label>
+                                    <select id="productCategory" required 
+                                        class="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-white dark:bg-stone-900">
+                                        <option value="spices">Ceylon Spices</option>
+                                        <option value="coconut">Coconut Products</option>
+                                        <option value="tea">Tea & Herbs</option>
+                                        <option value="oil">Essential Oils</option>
+                                        <option value="handicraft">Handicrafts</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">Description</label>
+                                <textarea id="productDescription" rows="4" 
+                                    class="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-white"
+                                    placeholder="Describe your product..."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="productFeatured" class="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500 border-gray-300">
+                                    <span class="text-sm font-medium text-stone-700 dark:text-stone-300">Feature this product on homepage</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Images -->
+                        <div class="space-y-4">
+                            <label class="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                                Product Images (up to 5) *
+                            </label>
+                            
+                            <div class="grid grid-cols-2 gap-4" id="imageUploadGrid">
+                                <div class="col-span-2">
+                                    <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-stone-300 dark:border-stone-600 rounded-lg cursor-pointer hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <i class="fas fa-cloud-upload-alt text-3xl text-stone-400 mb-2"></i>
+                                            <p class="text-sm text-stone-500">Click to upload images</p>
+                                            <p class="text-xs text-stone-400">PNG, JPG up to 2MB each</p>
+                                        </div>
+                                        <input type="file" class="hidden" multiple accept="image/*" onchange="handleImageUpload(this)" id="imageInput">
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div id="imagePreviewGrid" class="grid grid-cols-3 gap-2 mt-4">
+                                <!-- Image previews will appear here -->
+                            </div>
+                            
+                            <p class="text-xs text-stone-500 dark:text-stone-400">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                First image will be used as thumbnail
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-6 border-t border-stone-200 dark:border-stone-700">
+                        <button type="button" onclick="closeProductModal()" 
+                            class="px-6 py-3 rounded-lg border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 font-medium transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                            class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]">
+                            <i class="fas fa-save mr-2"></i>Save Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // Check auth
+        if (sessionStorage.getItem('adminAuth') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('adminUserDisplay').textContent = sessionStorage.getItem('adminUser') || 'Admin';
+    </script>
+</body>
+</html>

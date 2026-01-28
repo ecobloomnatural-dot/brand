@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | ECO BLOOM</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-['Inter'] antialiased bg-gradient-to-br from-emerald-900 via-stone-900 to-black min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-emerald-500 to-green-700 flex items-center justify-center shadow-2xl mb-4">
+                <i class="fas fa-leaf text-white text-3xl"></i>
+            </div>
+            <h1 class="text-3xl font-['Playfair_Display'] font-bold text-white">ECO BLOOM</h1>
+            <p class="text-emerald-200/80 mt-2">Admin Portal</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl">
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">Secure Login</h2>
+            
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-emerald-100 mb-2">Username</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-3 top-3 text-emerald-400"></i>
+                        <input type="text" id="username" required 
+                            class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-emerald-200/50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                            placeholder="Enter admin username">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-emerald-100 mb-2">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-3 text-emerald-400"></i>
+                        <input type="password" id="password" required 
+                            class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-emerald-200/50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                            placeholder="Enter password">
+                        <button type="button" onclick="togglePassword()" class="absolute right-3 top-3 text-emerald-400 hover:text-emerald-300">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="errorMessage" class="hidden p-3 rounded-lg bg-red-500/20 border border-red-500/30 text-red-200 text-sm text-center">
+                    Invalid credentials. Please try again.
+                </div>
+
+                <button type="submit" 
+                    class="w-full py-3 px-4 bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-500 hover:to-green-600 text-white font-semibold rounded-xl shadow-lg transform transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 focus:ring-offset-stone-900">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login to Dashboard
+                </button>
+            </form>
+
+            <div class="mt-6 pt-6 border-t border-white/10 text-center">
+                <a href="index.html" class="text-emerald-300 hover:text-emerald-200 text-sm transition-colors">
+                    <i class="fas fa-arrow-left mr-1"></i>Back to Store
+                </a>
+            </div>
+        </div>
+
+        <!-- Security Note -->
+        <div class="mt-6 text-center text-emerald-200/60 text-xs">
+            <i class="fas fa-shield-alt mr-1"></i>
+            Secured with session-based authentication
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Check if already logged in
+        if (sessionStorage.getItem('adminAuth') === 'true') {
+            window.location.href = 'admin.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (authenticateAdmin(username, password)) {
+                sessionStorage.setItem('adminAuth', 'true');
+                sessionStorage.setItem('adminUser', username);
+                sessionStorage.setItem('loginTime', new Date().toISOString());
+                window.location.href = 'admin.html';
+            } else {
+                document.getElementById('errorMessage').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('errorMessage').classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        function togglePassword() {
+            const password = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (password.type === 'password') {
+                password.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                password.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>
